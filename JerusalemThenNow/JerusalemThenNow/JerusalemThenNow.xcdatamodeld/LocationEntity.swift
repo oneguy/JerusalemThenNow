@@ -1,4 +1,5 @@
 import Foundation
+import CoreData
 
 // MARK: - Core Data Entity Classes
 
