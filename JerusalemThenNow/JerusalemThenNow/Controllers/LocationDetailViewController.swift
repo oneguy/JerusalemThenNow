@@ -202,15 +202,17 @@ class LocationDetailViewController: UIViewController {
 
 extension LocationDetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        // Scroll to make text view visible when keyboard appears
+        // Scroll to make text view visible when keyboard appears if the root view is a scroll view
         let bottomOffset = CGPoint(x: 0, y: textView.frame.maxY - view.frame.height + 250)
-        if bottomOffset.y > 0 {
-            view.setContentOffset(bottomOffset, animated: true)
+        if bottomOffset.y > 0, let scrollView = view as? UIScrollView {
+            scrollView.setContentOffset(bottomOffset, animated: true)
         }
     }
-    
+
     func textViewDidEndEditing(_ textView: UITextView) {
-        // Reset scroll position when keyboard disappears
-        view.setContentOffset(.zero, animated: true)
+        // Reset scroll position when keyboard disappears if the root view is a scroll view
+        if let scrollView = view as? UIScrollView {
+            scrollView.setContentOffset(.zero, animated: true)
+        }
     }
 }

@@ -213,12 +213,15 @@ class DataManager {
             // Create ZIP file
             let zipPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("JerusalemThenNow_Export.zip")
             
-            // In a real app, we would use a ZIP library here
-            // For this example, we'll just return the directory path
-            // In a real implementation, you would use something like:
-            // SSZipArchive.createZipFile(atPath: zipPath.path, withContentsOfDirectory: tempDir.path)
-            
-            return tempDir
+            // Archive the directory into a single ZIP file
+            if #available(iOS 16.0, *) {
+                try fileManager.zipItem(at: tempDir, to: zipPath)
+            } else {
+                // Fallback: simply return the directory if zipping is unavailable
+                return tempDir
+            }
+
+            return zipPath
         } catch {
             print("Export error: \(error)")
             return nil
